@@ -1,6 +1,7 @@
 package main
 
 import (
+	"event-booking-rest-api-golang/database"
 	"event-booking-rest-api-golang/models"
 	"net/http"
 
@@ -8,10 +9,20 @@ import (
 )
 
 func main() {
+	// Initializing DB
+	database.Init()
+
+	// Creating Server Engine
 	server := gin.Default()
+
+	// Registering GET endpoint
 	server.GET("/events", getEvents)
 	server.GET("/", welcomePage)
+
+	// Registering POST Endpoints
 	server.POST("/events", createEvent)
+
+	// Running the server
 	server.Run(":8080")
 }
 
