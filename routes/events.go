@@ -68,12 +68,12 @@ func updateEvent(context *gin.Context) {
 		return
 	}
 
-	// _, err = models.GetEventById(eventId)
+	_, err = models.GetEventById(eventId)
 
-	// if err != nil {
-	// 	context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to Get Event, Internal Server Error"})
-	// 	return
-	// }
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to Get Event, Internal Server Error"})
+		return
+	}
 
 	var updatedEvent models.Event
 	err = context.ShouldBindJSON(&updatedEvent)
@@ -101,6 +101,13 @@ func deleteEvent(context *gin.Context) {
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Bad Request Error"})
+		return
+	}
+
+	_, err = models.GetEventById(eventId)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to Get Event, Internal Server Error"})
 		return
 	}
 
