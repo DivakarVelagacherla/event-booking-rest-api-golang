@@ -23,3 +23,18 @@ func signup(context *gin.Context) {
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "User created"})
 }
+
+func login(context *gin.Context) {
+	var user models.User
+
+	context.ShouldBindJSON(&user)
+
+	err := user.ValidateCredentials()
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Bad Credentials"})
+		return
+	}
+
+	context.JSON(http.StatusAccepted, gin.H{"message": "Login Successfull"})
+
+}
