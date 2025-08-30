@@ -6,15 +6,13 @@ import (
 )
 
 type Event struct {
-	ID          int64
-	Title       string    `binding:"required"`
-	Description string    `binding:"required"`
-	Location    string    `binding:"required"`
-	DateTime    time.Time `binding:"required"`
-	UserID      int
+	ID          int64     `json:"id"`
+	Title       string    `json:"title" binding:"required"`
+	Description string    `json:"description" binding:"required"`
+	Location    string    `json:"location" binding:"required"`
+	DateTime    time.Time `json:"datetime" binding:"required"`
+	UserID      int       `json:"user_id"`
 }
-
-var events = []Event{}
 
 func (e *Event) Save() error {
 	query := `
@@ -82,4 +80,50 @@ func GetEventById(eventId int64) (*Event, error) {
 	}
 
 	return &event, nil
+}
+
+func (event Event) Update() error {
+	query := `
+	UPDATE events
+	SET title = ?, description = ?, location = ?, dateTime = ?, user_id = ?
+	WHERE id = ?
+	`
+
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.DateTime, event.UserID, event.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func Delete(eventId int64) error {
+	query := `
+		DELETE FROM events
+		WHERE id = ?
+	`
+
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	_, err = stmt.Exec(eventId)
+
+	if err != nil {
+		return err
+	}
+
+	return err
 }
