@@ -1,11 +1,14 @@
 package models
 
-import "event-booking-rest-api-golang/database"
+import (
+	"event-booking-rest-api-golang/database"
+	"event-booking-rest-api-golang/utils"
+)
 
 type User struct {
 	ID       int64
-	Email    string `binding: "required"`
-	Password string `binding: "required"`
+	Email    string `binding:"required"`
+	Password string `binding:"required"`
 }
 
 func (u User) Save() error {
@@ -18,7 +21,13 @@ func (u User) Save() error {
 		return err
 	}
 
-	_, err = stmt.Exec(u.Email, u.Password)
+	hashedPassword, err := utils.HashPassword(u.Password)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(u.Email, hashedPassword)
 	if err != nil {
 		return err
 	}
