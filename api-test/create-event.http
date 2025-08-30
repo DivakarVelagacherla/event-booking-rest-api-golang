@@ -2,7 +2,7 @@ POST http://localhost:8080/events
 Content-Type: application/json
 
 {
-    "title":"Test Event",
+    "title":"Test Event 3",
     "description":"a test event to test",
     "location":"somewhere in vs studios",
     "datetime":"2025-08-29T14:00:00.000Z"

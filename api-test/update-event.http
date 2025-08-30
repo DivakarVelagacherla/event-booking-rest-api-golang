@@ -1,0 +1,9 @@
+PUT http://localhost:8080/events/2
+Content-Type: application/json
+
+{
+    "title":"Update Event 2",
+    "description":"a update event to test",
+    "location":"somewhere in vs studios",
+    "datetime":"2025-08-29T14:00:00.000Z"
+}
