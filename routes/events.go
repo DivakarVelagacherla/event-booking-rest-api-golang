@@ -2,6 +2,7 @@ package routes
 
 import (
 	"event-booking-rest-api-golang/models"
+	"event-booking-rest-api-golang/utils"
 	"net/http"
 	"strconv"
 
@@ -24,8 +25,23 @@ func welcomePage(context *gin.Context) {
 }
 
 func createEvent(context *gin.Context) {
+
+	token := context.Request.Header.Get("Authorization")
+
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		return
+	}
+
+	err := utils.ValidateToken(token)
+
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		return
+	}
+
 	var event models.Event
-	err := context.ShouldBindJSON(&event)
+	err = context.ShouldBindJSON(&event)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Couldnt parse the request"})

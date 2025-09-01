@@ -1,8 +1,9 @@
 POST http://localhost:8080/events
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiZXhwIjoxNzU2NzU5NzE4LCJ1c2VySWQiOjB9.5GLMrFQfONvPyi2mWP2IFZBT2T7zWGNWnDip1x_70dY
 
 {
-    "title":"Test Event 3",
+    "title":"Test Event 1",
     "description":"a test event to test",
     "location":"somewhere in vs studios",
     "datetime":"2025-08-29T14:00:00.000Z"
