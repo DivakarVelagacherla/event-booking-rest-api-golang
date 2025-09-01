@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"event-booking-rest-api-golang/database"
 	"event-booking-rest-api-golang/utils"
 )
@@ -33,4 +34,23 @@ func (u User) Save() error {
 	}
 
 	return err
+}
+
+func (user *User) ValidateCredentials() error {
+	query := "SELECT id, password FROM users WHERE email =?"
+	row := database.DB.QueryRow(query, user.Email)
+
+	var retrievedPassword string
+	err := row.Scan(&user.ID, &retrievedPassword)
+	if err != nil {
+		return err
+	}
+
+	IsValidCredentials := utils.ComparePasswords(retrievedPassword, user.Password)
+
+	if !IsValidCredentials {
+		return errors.New("invalid credentials")
+	}
+
+	return nil
 }
