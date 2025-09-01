@@ -1,6 +1,16 @@
-# Event Booking REST API (Golang)
+### Event Booking REST API (Golang)
 
 A practice REST API for event booking, built with Go and Gin. It demonstrates user authentication, event management, and registration workflows using a SQLite database.
+
+## Tools & Technologies Used
+
+- **Go (Golang)** — Main programming language
+- **Gin** — HTTP web framework for Go
+- **SQLite** — Lightweight database
+- **JWT** — Authentication tokens
+- **bcrypt** — Password hashing
+- **VS Code REST Client** — For API testing
+- **Git & GitHub** — Version control and collaboration
 
 ## Features
 
